@@ -3,6 +3,6 @@
   <Profile>
     Unraid Community Applications templates maintained by crywolf203. This repository provides an Unraid template for LRCGET, an unofficial browser-based container for mass-downloading synced LRC lyrics for offline music libraries.
   </Profile>
-  <Icon>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/lrcget-icon.png</Icon>
+  <Icon>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/unraid-templates-icon.png</Icon>
   <WebPage>https://github.com/crywolf203/unraid-templates</WebPage>
 </CommunityApplications>
