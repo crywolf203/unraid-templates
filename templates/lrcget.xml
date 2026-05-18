@@ -17,7 +17,7 @@ This is an unofficial Unraid container/template for LRCGET.
   <Category>MediaApp:Music</Category>
   <WebUI>http://[IP]:[PORT:5800]</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/templates/lrcget.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/tranxuanthang/lrcget/main/src-tauri/icons/128x128.png</Icon>
+  <Icon>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/lrcget-icon.png</Icon>
   <ExtraParams>--shm-size=8g --cap-add=SYS_NICE --tmpfs /tmp:rw,size=8g</ExtraParams>
   <PostArgs/>
   <CPUset/>
