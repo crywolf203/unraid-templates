@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
- <strong>Personal Unraid Community Applications templates for apps I actually use on my own Unraid server.</strong>
+ <strong>Personal Unraid Community Applications Templates for apps I actually use on my own Unraid server.</strong>
 </p>
 
 <p align="center">
