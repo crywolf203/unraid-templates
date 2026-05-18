@@ -9,10 +9,9 @@
   <Privileged>false</Privileged>
   <Support>https://github.com/crywolf203/lrcget-unraid/issues</Support>
   <Project>https://github.com/tranxuanthang/lrcget</Project>
-  <Overview>
-LRCGET is a utility for mass-downloading synced LRC lyrics for your offline music library. This Unraid container runs the Linux desktop app inside a browser-accessible GUI container on port 5800.
-
-This is an unofficial Unraid container/template for LRCGET.
+  <Overview>LRCGET is a utility for mass-downloading synced LRC lyrics for your offline music library. This Unraid container runs the Linux desktop app inside a browser-accessible GUI container on port 5800. 
+    
+    This is an unofficial Unraid container/template for LRCGET. Audio playback through the browser WebUI is enabled with WEB_AUDIO=1. Audio works through the browser WebUI on port 5800, not through VNC.
   </Overview>
   <Category>MediaApp:Music</Category>
   <WebUI>http://[IP]:[PORT:5800]</WebUI>
@@ -33,6 +32,7 @@ This is an unofficial Unraid container/template for LRCGET.
   <Config Name="UMASK" Target="UMASK" Default="000" Mode="" Description="File permission mask." Type="Variable" Display="advanced" Required="true" Mask="false">000</Config>
   <Config Name="TZ" Target="TZ" Default="America/New_York" Mode="" Description="Timezone." Type="Variable" Display="advanced" Required="true" Mask="false">America/New_York</Config>
   <Config Name="KEEP_APP_RUNNING" Target="KEEP_APP_RUNNING" Default="1" Mode="" Description="Keep the GUI app running." Type="Variable" Display="advanced" Required="true" Mask="false">1</Config>
+  <Config Name="WEB_AUDIO" Target="WEB_AUDIO" Default="1" Mode="" Description="Enable browser-based audio streaming from the container WebUI. Audio works through port 5800, not VNC." Type="Variable" Display="advanced" Required="false" Mask="false">1</Config>
   <Config Name="DISPLAY_WIDTH" Target="DISPLAY_WIDTH" Default="1920" Mode="" Description="Browser GUI display width." Type="Variable" Display="advanced" Required="false" Mask="false">1920</Config>
   <Config Name="DISPLAY_HEIGHT" Target="DISPLAY_HEIGHT" Default="1080" Mode="" Description="Browser GUI display height." Type="Variable" Display="advanced" Required="false" Mask="false">1080</Config>
   <Config Name="ENABLE_CJK_FONT" Target="ENABLE_CJK_FONT" Default="1" Mode="" Description="Enable CJK fonts." Type="Variable" Display="advanced" Required="false" Mask="false">1</Config>
