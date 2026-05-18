@@ -1,16 +1,20 @@
 # Unraid Templates by crywolf203
 
 <p align="center">
-  <strong>Personal Unraid Community Applications templates for apps I actually use on my own Unraid server.</strong>
+ <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/lrcget-icon.png" alt="LRCGET for Unraid icon" width="160">
 </p>
 
 <p align="center">
-  <a href="https://unraid.net">
-    <img alt="Unraid" src="https://img.shields.io/badge/Unraid-Templates-f15a24?style=for-the-badge">
-  </a>
-  <a href="https://github.com/crywolf203/unraid-templates/blob/main/LICENSE">
-    <img alt="License" src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge">
-  </a>
+ <strong>Personal Unraid Community Applications templates for apps I actually use on my own Unraid server.</strong>
+</p>
+
+<p align="center">
+ <a href="https://unraid.net">
+ <img alt="Unraid" src="https://img.shields.io/badge/Unraid-Templates-f15a24?style=for-the-badge">
+ </a>
+ <a href="https://github.com/crywolf203/unraid-templates/blob/main/LICENSE">
+ <img alt="License" src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge">
+ </a>
 </p>
 
 ---
@@ -47,7 +51,7 @@ Whenever possible, each template links back to the original upstream project.
 
 | App | Description | Template | Upstream Project | Container |
 |---|---|---|---|---|
-| LRCGET | Browser-accessible Unraid wrapper for LRCGET, a tool for downloading synced `.lrc` lyrics for offline music libraries. | [`templates/lrcget.xml`](templates/lrcget.xml) | [`tranxuanthang/lrcget`](https://github.com/tranxuanthang/lrcget) | [`crywolf203/lrcget-unraid`](https://github.com/crywolf203/lrcget-unraid) |
+| LRCGET | Browser-accessible Unraid wrapper for LRCGET, a tool for downloading synced `.lrc` lyrics for offline music libraries. Includes WebUI audio support with `WEB_AUDIO=1`. | [`templates/lrcget.xml`](templates/lrcget.xml) | [`tranxuanthang/lrcget`](https://github.com/tranxuanthang/lrcget) | [`crywolf203/lrcget-unraid`](https://github.com/crywolf203/lrcget-unraid) |
 
 More templates may be added over time as I build wrappers for apps I actually use.
 
@@ -116,7 +120,7 @@ If a template is not visible in Community Applications yet, it may still be inst
 
 ## Template philosophy
 
-The templates in this repo are built around a few principles:
+The templates in this repo are built around a few principles.
 
 ### 1. Use apps I actually run
 
@@ -158,7 +162,9 @@ Common examples:
 
 ### 5. Explain advanced settings
 
-If a template needs special variables, extra parameters, capabilities, or rendering flags, those should be documented in the app-specific README or container repository.
+If a template needs special variables, extra parameters, capabilities, rendering flags, or browser audio settings, those should be documented in the app-specific README or container repository.
+
+For example, the LRCGET template includes `WEB_AUDIO=1` because its browser-based GUI container can stream application audio through the WebUI on port `5800`.
 
 ---
 
@@ -203,7 +209,7 @@ When adding a new Unraid template later, the expected process is:
 2. Test it locally on Unraid.
 3. Create a new XML file under `templates/`.
 4. Add an icon if needed.
-5. Document the paths, ports, and variables.
+5. Document the paths, ports, variables, audio behavior, and any extra parameters.
 6. Submit or refresh the Community Applications repository.
 7. Maintain the template if app behavior changes.
 
