@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/lrcget-icon.png" alt="LRCGET for Unraid icon" width="160">
+ <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/unraid-templates-icon.png" alt="Unraid Templates by crywolf203" width="160">
 </p>
 
 <p align="center">
