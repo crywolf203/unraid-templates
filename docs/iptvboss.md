@@ -1,637 +1,440 @@
-# IPTVBoss for Unraid
+# Unraid Templates by crywolf203
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/iptvboss-icon.png" alt="IPTVBoss for Unraid icon" width="180">
+  <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/unraid-templates-icon.png" alt="Unraid Templates by crywolf203" width="180">
 </p>
 
 <p align="center">
-  <strong>Unraid-focused setup guide for the upstream IPTVBoss Docker container.</strong>
+  <strong>Personal Unraid Community Applications templates for apps I actually use on my own Unraid server.</strong>
+</p>
+
+<p align="center">
+  <a href="https://unraid.net">
+    <img alt="Unraid" src="https://img.shields.io/badge/Unraid-Templates-f15a24?style=for-the-badge">
+  </a>
+  <a href="https://github.com/crywolf203/unraid-templates/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-blue?style=for-the-badge">
+  </a>
+  <a href="https://buymeacoffee.com/crywolf203">
+    <img alt="Buy Me a Coffee" src="https://img.shields.io/badge/Support-Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge">
+  </a>
 </p>
 
 ---
 
 ## Overview
 
-This guide explains how to run the upstream IPTVBoss Docker container on Unraid using the Community Applications template maintained in this repository.
+This repository contains Unraid Community Applications XML templates maintained by [`crywolf203`](https://github.com/crywolf203).
 
-The Docker image itself is maintained upstream by [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker). This repository does **not** rebuild, repackage, or replace that image. It only provides an Unraid-friendly XML template and Unraid-specific usage notes.
+The goal of this repo is simple:
 
-This documentation was updated after upstream PR [`#219`](https://github.com/groenator/iptvboss-docker/pull/219) was approved and merged. That PR added the Firefox default-browser fix to the upstream Docker image, so Dropbox authorization links should open in Mozilla Firefox automatically when no user browser preference exists.
+> Create clean, useful Unraid templates for applications I personally run, test, and use on my own Unraid server.
 
-```text
-Upstream IPTVBoss Docker image
-ghcr.io/groenator/iptvboss-docker:latest
-        │
-        │ Unraid XML template
-        ▼
-Browser-accessible IPTVBoss desktop
-        │
-        │ Full noVNC client
-        ▼
-Copy/paste works from the browser
-```
+These templates are intended to make installation easier for other Unraid users while keeping each setup close to the way the upstream app or Docker image actually works.
 
 ---
 
-## Why this guide was updated
+## Important note about these templates
 
-This guide was updated after upstream PR [`#219`](https://github.com/groenator/iptvboss-docker/pull/219) was approved and merged into `groenator/iptvboss-docker`.
+The templates in this repository are generally **wrappers** around other applications or existing Docker images.
 
-Before that upstream fix, this Unraid template temporarily documented a `/headless/.config` desktop-config workaround so users could manually persist the Firefox default-browser setting for Dropbox authorization.
+That means:
 
-After PR `#219`, the upstream Docker image sets Mozilla Firefox as the default XFCE/XDG browser when no user preference exists. Because of that, the Unraid template no longer needs to map `/headless/.config`.
+- I do not claim ownership of the upstream apps.
+- I do not rebrand the upstream apps as my own.
+- I only package, document, or template them for easier Unraid use.
+- App-specific bugs should usually be reported to the upstream project.
+- Docker, Unraid template, path, permission, WebUI, and documentation issues can be reported here.
 
-The Unraid template still keeps the full noVNC WebUI URL because that is what enables the browser clipboard/copy-paste experience:
-
-```text
-/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
----
-
-## What this template does
-
-The Unraid template points directly to the upstream image:
-
-```text
-ghcr.io/groenator/iptvboss-docker:latest
-```
-
-It configures the important Unraid pieces:
-
-- Persistent IPTVBoss app data
-- Browser noVNC WebUI
-- Full noVNC client URL for copy/paste support
-- Optional native VNC port
-- Optional XC Server port
-- PUID/PGID permissions
-- Cron schedule for automated no-GUI runs
-- VNC resolution, color depth, and password variables
-
-The main Unraid-specific improvement is the WebUI URL.
-
-Instead of opening the lite noVNC client:
-
-```text
-http://SERVER-IP:6901/?password=iptvboss
-```
-
-the template opens the full noVNC client:
-
-```text
-http://SERVER-IP:6901/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
-The full noVNC client includes the browser-side controls needed for better keyboard, clipboard, and copy/paste behavior.
+Whenever possible, each template links back to the original upstream project.
 
 ---
 
-## Installation
+## Current templates
 
-Install from Unraid Community Applications when available.
+| App | Description | Unraid Template | App Description / Guide | Upstream Project / Image |
+|---|---|---|---|---|
+| **LRCGET** | Browser-accessible Unraid wrapper for LRCGET, a tool for downloading synced `.lrc` lyrics for offline music libraries. Includes WebUI audio support with `WEB_AUDIO=1`. | [`templates/lrcget.xml`](templates/lrcget.xml) | [`LRCGET for Unraid description`](https://github.com/crywolf203/lrcget-unraid#readme) | [`tranxuanthang/lrcget`](https://github.com/tranxuanthang/lrcget) / [`crywolf203/lrcget-unraid`](https://github.com/crywolf203/lrcget-unraid) |
+| **IPTVBoss** | Unraid template for the upstream IPTVBoss Docker image. Uses the full noVNC browser client so copy/paste works directly from the browser WebUI. Includes optional XC Server and cron support. | [`templates/iptvboss.xml`](templates/iptvboss.xml) | [`IPTVBoss for Unraid description`](docs/iptvboss.md) | [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker) |
 
-Search for:
+More templates may be added over time as I build wrappers for apps I actually use.
+
+---
+
+## App descriptions
+
+Each supported app has a dedicated description or setup guide.
+
+### LRCGET
+
+[`LRCGET for Unraid`](https://github.com/crywolf203/lrcget-unraid#readme) explains the separate Unraid-friendly Docker image, including:
+
+- Browser WebUI on port `5800`
+- `/config` appdata mapping
+- `/music` library mapping
+- Web audio support
+- Rendering compatibility variables
+- Recommended extra parameters
+- Docker CLI and Compose examples
+
+### IPTVBoss
+
+[`IPTVBoss for Unraid`](docs/iptvboss.md) explains the Unraid template around the upstream Docker image, including:
+
+- Full noVNC WebUI URL for browser copy/paste
+- `/headless/IPTVBoss` appdata mapping
+- Optional native VNC
+- Optional XC Server
+- Cron schedule support
+- Firefox default-browser behavior from the upstream PR
+- Docker CLI and Compose examples
+
+---
+
+## Repository structure
 
 ```text
-IPTVBoss
+unraid-templates/
+├── README.md
+├── LICENSE
+├── ca_profile.xml
+├── unraid-templates-icon.png
+├── lrcget-icon.png
+├── iptvboss-icon.png
+├── docs/
+│   └── iptvboss.md
+└── templates/
+    ├── lrcget.xml
+    └── iptvboss.xml
 ```
 
-If installing manually from this template repo, the XML template is here:
+### `ca_profile.xml`
+
+This file describes the template repository for Unraid Community Applications.
+
+### `templates/`
+
+Each app gets its own XML template file inside the `templates/` folder.
+
+Current templates:
 
 ```text
+templates/lrcget.xml
 templates/iptvboss.xml
 ```
 
----
-
-## Recommended Unraid settings
-
-### Repository
+Future templates will follow the same pattern:
 
 ```text
-ghcr.io/groenator/iptvboss-docker:latest
+templates/example-app.xml
+templates/another-app.xml
 ```
 
-### WebUI
+### `docs/`
 
-Use this exact WebUI format in Unraid:
+The `docs/` folder contains app-specific Unraid setup notes when the XML template needs more explanation.
+
+Current guide:
 
 ```text
-http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&password=iptvboss&resize=scale
+docs/iptvboss.md
 ```
 
-In the XML template, the same line must use escaped ampersands:
-
-```xml
-<WebUI>http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&amp;password=iptvboss&amp;resize=scale</WebUI>
-```
-
-### Appdata path
-
-Recommended host path:
+LRCGET has its full app/container description in its own image repository:
 
 ```text
-/mnt/cache/appdata/iptvboss
+https://github.com/crywolf203/lrcget-unraid#readme
 ```
 
-Container path:
+### Icons
+
+App and repository icons are stored in the root of the repository.
+
+Examples:
 
 ```text
-/headless/IPTVBoss
+unraid-templates-icon.png
+lrcget-icon.png
+iptvboss-icon.png
 ```
 
-The old `/headless/.config` workaround is no longer needed because upstream PR [`#219`](https://github.com/groenator/iptvboss-docker/pull/219) added the Mozilla Firefox default-browser fix to the image.
+Each template points to its own icon using a raw GitHub URL.
 
 ---
 
-## Ports
+## How to use these templates in Unraid
 
-| Container Port | Purpose | Required |
-|---:|---|:---:|
-| `6901` | Browser noVNC WebUI | Yes |
-| `5901` | Native VNC client access | Optional |
-| `8001` | IPTVBoss XC Server | Optional, only useful when `XC_SERVER=true` |
+The preferred method is through **Unraid Community Applications**.
 
-### Browser WebUI
-
-The browser WebUI uses container port:
+In Unraid:
 
 ```text
-6901
+Apps → Search for the app name → Install
 ```
 
-The recommended WebUI path is:
+If a template is not visible in Community Applications yet, it can still be installed manually by placing the XML template in Unraid's user template folder.
+
+### Manual template install on newer Unraid versions
+
+Some newer Unraid versions no longer show the old **Template repositories** field.
+
+To manually install a template, download the XML file into:
 
 ```text
-/vnc.html?autoconnect=true&password=iptvboss&resize=scale
+/boot/config/plugins/dockerMan/templates-user/
 ```
 
-### Native VNC
-
-Native VNC uses:
-
-```text
-5901
-```
-
-Most Unraid users should not need a separate VNC app because the full noVNC browser client works. Native VNC is only included as a fallback.
-
-### XC Server
-
-XC Server uses:
-
-```text
-8001
-```
-
-It only starts when:
-
-```text
-XC_SERVER=true
-```
-
-When enabled, access it at:
-
-```text
-http://YOUR-UNRAID-IP:8001
-```
-
-or whatever host port you mapped to container port `8001`.
-
----
-
-## Paths
-
-| Container Path | Recommended Host Path | Purpose |
-|---|---|---|
-| `/headless/IPTVBoss` | `/mnt/cache/appdata/iptvboss` | Persistent IPTVBoss app data |
-
-Do not add a separate `/headless/.config` mapping for normal installs. That workaround was only needed before the upstream Firefox default-browser fix.
-
----
-
-## Environment variables
-
-| Variable | Recommended Unraid Value | Description |
-|---|---:|---|
-| `PUID` | `99` | User ID used by the container. On Unraid, `99` is commonly the `nobody` user. |
-| `PGID` | `100` | Group ID used by the container. On Unraid, `100` is commonly the `users` group. |
-| `TZ` | `America/New_York` | Container timezone. Change this to match your location. |
-| `VNC_PW` | `iptvboss` | Password for the browser noVNC and native VNC sessions. |
-| `VNC_RESOLUTION` | `1920x1080` | Desktop resolution inside the VNC session. |
-| `VNC_COL_DEPTH` | `24` | VNC color depth. |
-| `CRON_SCHEDULE` | `0 3,15 * * *` | Cron schedule for automated IPTVBoss no-GUI runs. |
-| `XC_SERVER` | `true` | Starts IPTVBoss XC Server on container port `8001`. |
-| `CRONITOR_API_KEY` | blank | Optional Cronitor API key for monitoring cron jobs. |
-| `CRONITOR_SCHEDULE_NAME` | blank | Optional custom Cronitor schedule name. |
-
----
-
-## Important password note
-
-The default template WebUI assumes:
-
-```text
-VNC_PW=iptvboss
-```
-
-That is why this URL works automatically:
-
-```text
-http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
-If you change `VNC_PW`, then the WebUI URL password also needs to match.
-
-For example, if you change:
-
-```text
-VNC_PW=mysecretpassword
-```
-
-then your WebUI URL should become:
-
-```text
-http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&password=mysecretpassword&resize=scale
-```
-
-If the WebUI still contains the old password, noVNC may fail to auto-connect or may ask you to enter the password manually.
-
----
-
-## Copy and paste from the browser
-
-Use the full noVNC client:
-
-```text
-/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
-Do **not** use the lite URL for normal Unraid use:
-
-```text
-/?password=iptvboss
-```
-
-The `/vnc.html` page is the full noVNC client.
-
-### Copy/paste workflow
-
-1. Open the IPTVBoss WebUI from Unraid.
-2. Confirm the URL includes `/vnc.html`.
-3. Click the noVNC side toolbar.
-4. Open the clipboard panel.
-5. Paste text into the noVNC clipboard box.
-6. Click inside the IPTVBoss field.
-7. Press `Ctrl + V`.
-
-This avoids needing a separate desktop VNC app for setup.
-
----
-
-## Dropbox authorization
-
-The upstream IPTVBoss Docker image now sets Mozilla Firefox as the default XFCE/XDG browser when no user preference exists.
-
-If Dropbox authorization does not open, verify the browser setting inside the IPTVBoss desktop:
-
-```text
-Applications > Settings > Default Applications > Internet > Web Browser
-```
-
-It should be:
-
-```text
-Mozilla Firefox
-```
-
-You can also verify from Unraid Terminal:
+Example for IPTVBoss:
 
 ```bash
-docker exec -it IPTVBoss bash -lc '
-cat /headless/.config/xfce4/helpers.rc 2>/dev/null || true
-cat /headless/.config/mimeapps.list 2>/dev/null || true
-'
+mkdir -p /boot/config/plugins/dockerMan/templates-user
+
+curl -fL \
+  "https://raw.githubusercontent.com/crywolf203/unraid-templates/main/templates/iptvboss.xml" \
+  -o "/boot/config/plugins/dockerMan/templates-user/my-IPTVBoss.xml"
 ```
 
-Expected values include:
+Then go to:
 
 ```text
-WebBrowser=firefox
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
+Docker → Add Container
 ```
+
+Select the imported template from the template dropdown.
 
 ---
 
-## Cron schedule
+## Template philosophy
 
-The container can run IPTVBoss no-GUI tasks automatically using cron.
+The templates in this repo are built around a few principles.
 
-Default template value:
+### 1. Use apps I actually run
 
-```text
-0 3,15 * * *
-```
+I intend for future Unraid templates in this repo to be wrappers for apps I personally use on my own Unraid server.
 
-That means it runs daily at:
+This helps keep the templates practical, tested, and grounded in real-world usage.
 
-```text
-3:00 AM
-3:00 PM
-```
+### 2. Respect upstream developers
 
-Cron uses the timezone set by:
+Each app belongs to its original developer or project.
 
-```text
-TZ
-```
+This repository only provides Unraid-friendly installation templates, Docker wrappers, or additional documentation.
 
-### Common cron examples
+### 3. Keep paths clear
 
-| Schedule | Meaning |
+Templates should clearly define what each path does.
+
+Common examples:
+
+| Container Path | Purpose |
 |---|---|
-| `0 3,15 * * *` | Daily at 3 AM and 3 PM |
-| `0 3 * * *` | Daily at 3 AM |
-| `0 */6 * * *` | Every 6 hours |
-| `30 2 * * *` | Daily at 2:30 AM |
+| `/config` | Persistent app configuration and database files |
+| `/data` | General app data |
+| `/downloads` | Download location |
+| `/media` | Media library path |
+| `/music` | Music library path |
+| `/headless/IPTVBoss` | IPTVBoss persistent app data |
+
+### 4. Prefer safe defaults
+
+Templates should use defaults that make sense for most Unraid users.
+
+Common examples:
+
+```text
+/mnt/user/appdata/appname
+/mnt/user/media
+/mnt/user/downloads
+```
+
+Where appropriate, users can change host paths to cache-backed locations such as:
+
+```text
+/mnt/cache/appdata/appname
+```
+
+### 5. Explain advanced settings
+
+If a template needs special variables, extra parameters, capabilities, rendering flags, WebUI behavior, browser audio, cron settings, copy/paste instructions, or browser authorization behavior, those details should be documented in the app-specific README or guide.
+
+Examples:
+
+- LRCGET uses `WEB_AUDIO=1` so browser audio works through the WebUI.
+- IPTVBoss uses `/vnc.html` instead of the lite noVNC URL so browser copy/paste works correctly.
 
 ---
 
-## XC Server
+## Notes for current templates
 
-To enable XC Server:
+### LRCGET
 
-```text
-XC_SERVER=true
-```
-
-Expose/map container port:
+LRCGET is provided through a separate Unraid-friendly Docker wrapper image:
 
 ```text
-8001
+ghcr.io/crywolf203/lrcget-unraid:latest
 ```
 
-Then open:
+That image is built and published from:
 
 ```text
-http://YOUR-UNRAID-IP:8001
+https://github.com/crywolf203/lrcget-unraid
 ```
 
-If you do not use XC Server, you can set:
+The Unraid template in this repo points to that image.
+
+Full app/container description:
 
 ```text
-XC_SERVER=false
+https://github.com/crywolf203/lrcget-unraid#readme
 ```
 
-and remove or ignore the `8001` port mapping.
+### IPTVBoss
 
----
-
-## Appdata and permissions
-
-The upstream container expects app data at:
-
-```text
-/headless/IPTVBoss
-```
-
-The host path must be writable by the container user.
-
-Recommended Unraid values:
-
-```text
-PUID=99
-PGID=100
-```
-
-Recommended host path:
-
-```text
-/mnt/cache/appdata/iptvboss
-```
-
-If IPTVBoss does not start, check appdata permissions first.
-
-From Unraid Terminal:
-
-```bash
-mkdir -p /mnt/cache/appdata/iptvboss
-chown -R 99:100 /mnt/cache/appdata/iptvboss
-chmod -R 775 /mnt/cache/appdata/iptvboss
-```
-
-Then restart the container.
-
----
-
-## Manual docker run test
-
-This is a clean local test command for Unraid Terminal.
-
-```bash
-docker rm -f iptvboss-test 2>/dev/null || true
-
-mkdir -p /mnt/cache/appdata/iptvboss-test
-chown -R 99:100 /mnt/cache/appdata/iptvboss-test
-chmod -R 775 /mnt/cache/appdata/iptvboss-test
-
-docker run -d \
-  --name iptvboss-test \
-  --net bridge \
-  -l net.unraid.docker.webui='http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&password=iptvboss&resize=scale' \
-  -p 6902:6901 \
-  -p 5902:5901 \
-  -p 8002:8001 \
-  -e PUID=99 \
-  -e PGID=100 \
-  -e TZ=America/New_York \
-  -e CRON_SCHEDULE="0 3,15 * * *" \
-  -e XC_SERVER=true \
-  -e VNC_PW=iptvboss \
-  -e VNC_RESOLUTION=1920x1080 \
-  -e VNC_COL_DEPTH=24 \
-  -v /mnt/cache/appdata/iptvboss-test:/headless/IPTVBoss \
-  ghcr.io/groenator/iptvboss-docker:latest
-```
-
-Open:
-
-```text
-http://YOUR-UNRAID-IP:6902/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
----
-
-## Docker Compose example
-
-```yaml
-services:
-  iptvboss:
-    image: ghcr.io/groenator/iptvboss-docker:latest
-    container_name: iptvboss
-    restart: unless-stopped
-    ports:
-      - "6901:6901"
-      - "5901:5901"
-      - "8001:8001"
-    environment:
-      PUID: "99"
-      PGID: "100"
-      TZ: "America/New_York"
-      CRON_SCHEDULE: "0 3,15 * * *"
-      XC_SERVER: "true"
-      VNC_PW: "iptvboss"
-      VNC_RESOLUTION: "1920x1080"
-      VNC_COL_DEPTH: "24"
-    volumes:
-      - /mnt/user/appdata/iptvboss:/headless/IPTVBoss
-```
-
-Open the full browser noVNC client:
-
-```text
-http://YOUR-UNRAID-IP:6901/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
----
-
-## Troubleshooting
-
-### Copy/paste does not work in the browser
-
-Make sure you are using:
-
-```text
-/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
-not:
-
-```text
-/?password=iptvboss
-```
-
-The `/vnc.html` page is the full noVNC client.
-
-### WebUI does not auto-connect
-
-Check that the WebUI password matches:
-
-```text
-VNC_PW
-```
-
-Default:
-
-```text
-iptvboss
-```
-
-If you changed `VNC_PW`, update the WebUI URL or enter the password manually.
-
-### Dropbox authorization still fails
-
-Verify that the upstream image has been updated and that Firefox is set as the default browser:
-
-```bash
-docker pull ghcr.io/groenator/iptvboss-docker:latest
-
-docker exec -it IPTVBoss bash -lc '
-cat /headless/.config/xfce4/helpers.rc 2>/dev/null || true
-cat /headless/.config/mimeapps.list 2>/dev/null || true
-'
-```
-
-Expected values:
-
-```text
-WebBrowser=firefox
-x-scheme-handler/http=firefox.desktop
-x-scheme-handler/https=firefox.desktop
-```
-
-If those values are missing, recreate the container after pulling the latest image.
-
-### IPTVBoss does not start
-
-Check appdata permissions:
-
-```bash
-chown -R 99:100 /mnt/cache/appdata/iptvboss
-chmod -R 775 /mnt/cache/appdata/iptvboss
-```
-
-Also confirm the path maps to:
-
-```text
-/headless/IPTVBoss
-```
-
-### XC Server does not open
-
-Confirm:
-
-```text
-XC_SERVER=true
-```
-
-Confirm port `8001` is mapped.
-
-Then open:
-
-```text
-http://YOUR-UNRAID-IP:8001
-```
-
-### Native VNC does not connect
-
-Native VNC uses port:
-
-```text
-5901
-```
-
-Use the same password as:
-
-```text
-VNC_PW
-```
-
-Most users should use the browser WebUI instead.
-
----
-
-## Updating
-
-This template uses the upstream image:
+IPTVBoss uses the upstream Docker image directly:
 
 ```text
 ghcr.io/groenator/iptvboss-docker:latest
 ```
 
-When the upstream image is updated, Unraid should show an available Docker update.
+The main Unraid-specific improvement is the WebUI URL:
 
-This template does not build or publish a separate image.
+```text
+http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&password=iptvboss&resize=scale
+```
+
+This opens the full noVNC client instead of the lite client, which allows copy/paste from the browser window.
+
+Detailed Unraid guide:
+
+```text
+docs/iptvboss.md
+```
 
 ---
 
-## Credits
+## Support
 
-The IPTVBoss Docker image is maintained by the upstream project:
+For template-specific issues, such as:
+
+- Unraid path mappings
+- Docker environment variables
+- WebUI links
+- Template XML problems
+- Permission issues caused by the template
+- Missing or incorrect Community Apps metadata
+- Unraid-specific documentation corrections
+
+Open an issue in this repository:
+
+```text
+https://github.com/crywolf203/unraid-templates/issues
+```
+
+For issues with a specific app, please check the app's upstream project first.
+
+### LRCGET links
+
+Application-level LRCGET issues:
+
+```text
+https://github.com/tranxuanthang/lrcget
+```
+
+Container-specific LRCGET for Unraid issues:
+
+```text
+https://github.com/crywolf203/lrcget-unraid/issues
+```
+
+LRCGET app/container description:
+
+```text
+https://github.com/crywolf203/lrcget-unraid#readme
+```
+
+### IPTVBoss links
+
+Upstream IPTVBoss Docker image:
 
 ```text
 https://github.com/groenator/iptvboss-docker
 ```
 
-This repository only provides an Unraid Community Applications template and Unraid-focused documentation.
+Unraid-specific IPTVBoss template or documentation issues:
+
+```text
+https://github.com/crywolf203/unraid-templates/issues
+```
+
+IPTVBoss Unraid guide:
+
+```text
+https://github.com/crywolf203/unraid-templates/blob/main/docs/iptvboss.md
+```
+
+---
+
+## Donations
+
+If these Unraid templates help you, you can support my template and container maintenance here:
+
+```text
+https://buymeacoffee.com/crywolf203
+```
+
+Please also consider supporting the upstream developers of the apps you use. This repository exists because of their work.
+
+---
+
+## Adding future templates
+
+When adding a new Unraid template later, the expected process is:
+
+1. Create or identify the Docker image.
+2. Test it locally on Unraid.
+3. Create a new XML file under `templates/`.
+4. Add an icon if needed.
+5. Add a guide under `docs/` if the app needs extra Unraid-specific explanation.
+6. Document paths, ports, variables, WebUI behavior, audio behavior, cron behavior, and any extra parameters.
+7. Submit or refresh the Community Applications repository.
+8. Maintain the template if app behavior changes.
+
+Example future structure:
+
+```text
+unraid-templates/
+├── README.md
+├── LICENSE
+├── ca_profile.xml
+├── unraid-templates-icon.png
+├── lrcget-icon.png
+├── iptvboss-icon.png
+├── another-app-icon.png
+├── docs/
+│   ├── iptvboss.md
+│   └── another-app.md
+└── templates/
+    ├── lrcget.xml
+    ├── iptvboss.xml
+    └── another-app.xml
+```
 
 ---
 
 ## Disclaimer
 
-This is an unofficial Unraid template for the upstream IPTVBoss Docker image.
+These templates are unofficial community templates unless explicitly stated otherwise.
 
-For issues with the Docker image or IPTVBoss behavior, check the upstream project first.
+All trademarks, project names, logos, Docker images, and application code belong to their respective owners.
 
-For Unraid template issues, WebUI URL improvements, port mappings, or documentation corrections, use this repository.
+This repository exists only to provide Unraid-friendly templates, documentation, and wrappers for applications I use and want to share with the Unraid community.
+
+---
+
+## License
+
+This repository is licensed under the MIT License.
+
+The license applies to the template files, documentation, and repository-specific work in this repo.
+
+It does **not** change the license of any upstream application or Docker image referenced by these templates.
