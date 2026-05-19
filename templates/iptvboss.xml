@@ -9,11 +9,11 @@
   <Privileged>false</Privileged>
   <Support>https://github.com/crywolf203/unraid-templates/issues</Support>
   <Project>https://github.com/groenator/iptvboss-docker</Project>
-  <Overview>IPTVBoss is an IPTV playlist and EPG management application. This Unraid template uses the upstream groenator IPTVBoss Docker image and opens the full noVNC browser client so copy and paste work from the browser window. The browser WebUI uses port 6901. XC Server uses port 8001. Native VNC on port 5901 is included as an optional fallback.</Overview>
+  <Overview>IPTVBoss is an IPTV playlist and EPG management application. This Unraid template uses the upstream groenator IPTVBoss Docker image and opens the full noVNC browser client so copy and paste work from the browser window. The browser WebUI uses port 6901. XC Server uses port 8001. Native VNC on port 5901 is included as an optional fallback. For Dropbox authorization, set the desktop default browser to Mozilla inside IPTVBoss using Applications &gt; Settings &gt; Default Applications. The template includes a persistent Desktop Config path so this setting can survive container updates/recreates.</Overview>
   <Category>MediaApp:Video</Category>
   <WebUI>http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&amp;password=iptvboss&amp;resize=scale</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/templates/iptvboss.xml</TemplateURL>
-  <Icon>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/unraid-templates-icon.png</Icon>
+  <Icon>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/iptvboss-icon.png</Icon>
   <ExtraParams/>
   <PostArgs/>
   <CPUset/>
@@ -25,6 +25,7 @@
   <Config Name="Native VNC Port" Target="5901" Default="5901" Mode="tcp" Description="Optional native VNC port. Browser WebUI is recommended, but this can be used as a fallback with a VNC client." Type="Port" Display="advanced" Required="false" Mask="false">5901</Config>
   <Config Name="XC Server Port" Target="8001" Default="8001" Mode="tcp" Description="XC Server port. Only used when XC_SERVER is set to true." Type="Port" Display="always" Required="false" Mask="false">8001</Config>
   <Config Name="Appdata" Target="/headless/IPTVBoss" Default="/mnt/user/appdata/iptvboss" Mode="rw" Description="Persistent IPTVBoss app data. This path is required. Use a cache/appdata path if preferred." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/iptvboss</Config>
+  <Config Name="Desktop Config" Target="/headless/.config" Default="/mnt/user/appdata/iptvboss-desktop-config" Mode="rw" Description="Persistent desktop/VNC configuration. This preserves settings such as Applications > Settings > Default Applications > Web Browser = Mozilla, which is needed for Dropbox authorization links." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/iptvboss-desktop-config</Config>
   <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID for file ownership. 99 is the default Unraid nobody user." Type="Variable" Display="advanced" Required="true" Mask="false">99</Config>
   <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID for file ownership. 100 is the default Unraid users group." Type="Variable" Display="advanced" Required="true" Mask="false">100</Config>
   <Config Name="TZ" Target="TZ" Default="America/New_York" Mode="" Description="Container timezone. Change this to your timezone." Type="Variable" Display="always" Required="true" Mask="false">America/New_York</Config>
@@ -34,4 +35,5 @@
   <Config Name="CRON_SCHEDULE" Target="CRON_SCHEDULE" Default="0 3,15 * * *" Mode="" Description="Cron schedule for automated IPTVBoss no-GUI runs. Default runs daily at 3 AM and 3 PM." Type="Variable" Display="always" Required="false" Mask="false">0 3,15 * * *</Config>
   <Config Name="XC_SERVER" Target="XC_SERVER" Default="true" Mode="" Description="Enable IPTVBoss XC Server on port 8001." Type="Variable" Display="always" Required="false" Mask="false">true</Config>
   <Config Name="CRONITOR_API_KEY" Target="CRONITOR_API_KEY" Default="" Mode="" Description="Optional Cronitor API key. Leave blank if not using Cronitor." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="CRONITOR_SCHEDULE_NAME" Target="CRONITOR_SCHEDULE_NAME" Default="" Mode="" Description="Optional Cronitor schedule name. Leave blank if not using Cronitor." Type="Variable" Display="advanced" Required="false" Mask="false"/>
 </Container>
