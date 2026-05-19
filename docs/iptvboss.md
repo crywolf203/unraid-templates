@@ -1,3 +1,5 @@
+# IPTVBoss for Unraid
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/iptvboss-icon.png" alt="IPTVBoss for Unraid icon" width="180">
 </p>
@@ -39,8 +41,7 @@ ghcr.io/groenator/iptvboss-docker:latest
 
 It configures the important Unraid pieces:
 
-- Persistent IPTVBoss app data
-- Persistent desktop configuration
+- Persistent app data path
 - Browser noVNC WebUI
 - Full noVNC client URL for copy/paste support
 - Optional native VNC port
@@ -48,7 +49,6 @@ It configures the important Unraid pieces:
 - PUID/PGID permissions
 - Cron schedule for automated no-GUI runs
 - VNC resolution, color depth, and password variables
-- Dropbox authorization/default-browser guidance
 
 The main improvement in this template is the WebUI URL.
 
@@ -78,7 +78,7 @@ Search for:
 IPTVBoss
 ```
 
-If installing manually from this template repo, the XML template is here:
+If installing manually from the template repo, the XML template is here:
 
 ```text
 templates/iptvboss.xml
@@ -127,28 +127,6 @@ Container path:
 ```text
 /headless/IPTVBoss
 ```
-
-### Desktop config path
-
-Recommended host path:
-
-```text
-/mnt/user/appdata/iptvboss-desktop-config
-```
-
-Cache-preferred example:
-
-```text
-/mnt/cache/appdata/iptvboss-desktop-config
-```
-
-Container path:
-
-```text
-/headless/.config
-```
-
-This path preserves desktop settings such as the default web browser selection used for Dropbox authorization.
 
 ---
 
@@ -205,21 +183,6 @@ http://YOUR-UNRAID-IP:8001
 ```
 
 or whatever host port you mapped to container port `8001`.
-
----
-
-## Paths
-
-| Container Path | Recommended Host Path | Purpose |
-|---|---|---|
-| `/headless/IPTVBoss` | `/mnt/user/appdata/iptvboss` | Persistent IPTVBoss app data |
-| `/headless/.config` | `/mnt/user/appdata/iptvboss-desktop-config` | Persistent desktop/VNC configuration, including default browser settings |
-
-### Why `/headless/.config` matters
-
-Dropbox authorization may require changing the desktop default web browser to Mozilla.
-
-That setting is stored in the desktop configuration area. Mapping `/headless/.config` allows the setting to survive container restarts, updates, and recreation.
 
 ---
 
@@ -299,72 +262,6 @@ The `/vnc.html` page is the full noVNC client.
 7. Press `Ctrl + V`.
 
 This avoids needing a separate desktop VNC app for setup.
-
----
-
-## Dropbox authorization / default browser fix
-
-When setting up Dropbox authorization inside IPTVBoss, the app may show an error similar to:
-
-```text
-Failed to execute default web browser
-```
-
-This happens because IPTVBoss may try to open the Dropbox authorization link with Debian Sensible Browser, but that browser handler is not available in the container.
-
-### Fix inside the IPTVBoss desktop
-
-Open IPTVBoss through the browser WebUI.
-
-Then inside the IPTVBoss desktop, go to:
-
-```text
-Applications → Settings → Default Applications
-```
-
-In the **Internet** section, set **Web Browser** to:
-
-```text
-Mozilla
-```
-
-Then retry Dropbox authorization inside IPTVBoss.
-
-### Why the template includes Desktop Config
-
-The Unraid template includes this advanced path:
-
-```text
-/headless/.config
-```
-
-mapped to:
-
-```text
-/mnt/user/appdata/iptvboss-desktop-config
-```
-
-This allows the desktop default-application setting to persist across container restarts, updates, and recreates.
-
-Without this persistent desktop config path, the Mozilla default-browser setting may need to be set again after recreating the container.
-
-### If the Dropbox authorization link still does not open
-
-Use the full noVNC WebUI URL:
-
-```text
-/vnc.html?autoconnect=true&password=iptvboss&resize=scale
-```
-
-Then use the noVNC clipboard panel to copy the Dropbox authorization link and paste it into the Mozilla browser inside the IPTVBoss desktop.
-
-Do not use the lite noVNC URL:
-
-```text
-/?password=iptvboss
-```
-
-The full `/vnc.html` client is recommended because browser copy/paste works properly there.
 
 ---
 
@@ -449,18 +346,16 @@ PUID=99
 PGID=100
 ```
 
-Recommended host paths:
+Recommended host path:
 
 ```text
 /mnt/user/appdata/iptvboss
-/mnt/user/appdata/iptvboss-desktop-config
 ```
 
-Cache-preferred host paths:
+or:
 
 ```text
 /mnt/cache/appdata/iptvboss
-/mnt/cache/appdata/iptvboss-desktop-config
 ```
 
 If IPTVBoss does not start, check appdata permissions first.
@@ -469,9 +364,8 @@ From Unraid Terminal:
 
 ```bash
 mkdir -p /mnt/cache/appdata/iptvboss
-mkdir -p /mnt/cache/appdata/iptvboss-desktop-config
-chown -R 99:100 /mnt/cache/appdata/iptvboss /mnt/cache/appdata/iptvboss-desktop-config
-chmod -R 775 /mnt/cache/appdata/iptvboss /mnt/cache/appdata/iptvboss-desktop-config
+chown -R 99:100 /mnt/cache/appdata/iptvboss
+chmod -R 775 /mnt/cache/appdata/iptvboss
 ```
 
 Then restart the container.
@@ -486,9 +380,8 @@ This is a clean local test command for Unraid Terminal.
 docker rm -f iptvboss-test 2>/dev/null || true
 
 mkdir -p /mnt/cache/appdata/iptvboss-test
-mkdir -p /mnt/cache/appdata/iptvboss-test-desktop-config
-chown -R 99:100 /mnt/cache/appdata/iptvboss-test /mnt/cache/appdata/iptvboss-test-desktop-config
-chmod -R 775 /mnt/cache/appdata/iptvboss-test /mnt/cache/appdata/iptvboss-test-desktop-config
+chown -R 99:100 /mnt/cache/appdata/iptvboss-test
+chmod -R 775 /mnt/cache/appdata/iptvboss-test
 
 docker run -d \
   --name iptvboss-test \
@@ -506,7 +399,6 @@ docker run -d \
   -e VNC_RESOLUTION=1920x1080 \
   -e VNC_COL_DEPTH=24 \
   -v /mnt/cache/appdata/iptvboss-test:/headless/IPTVBoss \
-  -v /mnt/cache/appdata/iptvboss-test-desktop-config:/headless/.config \
   ghcr.io/groenator/iptvboss-docker:latest
 ```
 
@@ -541,7 +433,6 @@ services:
       VNC_COL_DEPTH: "24"
     volumes:
       - /mnt/user/appdata/iptvboss:/headless/IPTVBoss
-      - /mnt/user/appdata/iptvboss-desktop-config:/headless/.config
 ```
 
 Open the full browser noVNC client:
@@ -553,6 +444,22 @@ http://YOUR-UNRAID-IP:6901/vnc.html?autoconnect=true&password=iptvboss&resize=sc
 ---
 
 ## Troubleshooting
+
+### Desktop background changed after adding Desktop Config
+
+If the desktop background changes color after adding the persistent `/headless/.config` path, that is expected. The container is creating a fresh XFCE desktop profile in the new persistent config folder.
+
+This is cosmetic and does not mean IPTVBoss is broken.
+
+You can change the background from inside the desktop:
+
+```text
+Applications → Settings → Desktop
+```
+
+Because `/headless/.config` is persistent, the background choice should survive restarts.
+
+
 
 ### Copy/paste does not work in the browser
 
@@ -586,32 +493,39 @@ iptvboss
 
 If you changed `VNC_PW`, update the WebUI URL or enter the password manually.
 
-### Dropbox authorization fails with default browser error
+### Notification area lost selection warning
 
-Set the desktop default browser to Mozilla:
+After adding the persistent desktop config path, XFCE may show this warning on first launch:
 
 ```text
-Applications → Settings → Default Applications → Internet → Web Browser → Mozilla
+The notification area lost selection
 ```
 
-The template includes a persistent `/headless/.config` path so this setting can survive updates and container recreation.
+This is a cosmetic XFCE desktop warning and does not affect IPTVBoss, noVNC, copy/paste, cron, or XC Server.
 
-If you changed or removed the Desktop Config path, you may need to set Mozilla again after recreating the container.
+It can appear because the persistent `/headless/.config` folder starts empty and XFCE creates a new desktop profile.
+
+You can safely close the message.
+
+The persistent desktop config path is still recommended because it preserves the default browser setting needed for Dropbox authorization:
+
+```text
+Applications → Settings → Default Applications → Web Browser → Mozilla
+```
 
 ### IPTVBoss does not start
 
 Check appdata permissions:
 
 ```bash
-chown -R 99:100 /mnt/cache/appdata/iptvboss /mnt/cache/appdata/iptvboss-desktop-config
-chmod -R 775 /mnt/cache/appdata/iptvboss /mnt/cache/appdata/iptvboss-desktop-config
+chown -R 99:100 /mnt/cache/appdata/iptvboss
+chmod -R 775 /mnt/cache/appdata/iptvboss
 ```
 
-Also confirm the paths map to:
+Also confirm the path maps to:
 
 ```text
 /headless/IPTVBoss
-/headless/.config
 ```
 
 ### XC Server does not open
