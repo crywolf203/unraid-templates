@@ -1,5 +1,3 @@
-# Unraid Templates by crywolf203
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/unraid-templates-icon.png" alt="Unraid Templates by crywolf203" width="180">
 </p>
