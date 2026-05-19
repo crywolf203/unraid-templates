@@ -14,7 +14,9 @@
 
 This guide explains how to run the upstream IPTVBoss Docker container on Unraid using the Community Applications template maintained in this repository.
 
-The Docker image itself is maintained upstream by [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker). This repository does **not** rebuild, repackage, or replace that image. It only provides an Unraid-friendly XML template and clearer Unraid-specific usage notes.
+The Docker image itself is maintained upstream by [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker). This repository does **not** rebuild, repackage, or replace that image. It only provides an Unraid-friendly XML template and Unraid-specific usage notes.
+
+This documentation was updated after upstream PR [`#219`](https://github.com/groenator/iptvboss-docker/pull/219) was approved and merged. That PR added the Firefox default-browser fix to the upstream Docker image, so Dropbox authorization links should open in Mozilla Firefox automatically when no user browser preference exists.
 
 ```text
 Upstream IPTVBoss Docker image
@@ -31,6 +33,22 @@ Copy/paste works from the browser
 
 ---
 
+## Why this guide was updated
+
+This guide was updated after upstream PR [`#219`](https://github.com/groenator/iptvboss-docker/pull/219) was approved and merged into `groenator/iptvboss-docker`.
+
+Before that upstream fix, this Unraid template temporarily documented a `/headless/.config` desktop-config workaround so users could manually persist the Firefox default-browser setting for Dropbox authorization.
+
+After PR `#219`, the upstream Docker image sets Mozilla Firefox as the default XFCE/XDG browser when no user preference exists. Because of that, the Unraid template no longer needs to map `/headless/.config`.
+
+The Unraid template still keeps the full noVNC WebUI URL because that is what enables the browser clipboard/copy-paste experience:
+
+```text
+/vnc.html?autoconnect=true&password=iptvboss&resize=scale
+```
+
+---
+
 ## What this template does
 
 The Unraid template points directly to the upstream image:
@@ -41,7 +59,7 @@ ghcr.io/groenator/iptvboss-docker:latest
 
 It configures the important Unraid pieces:
 
-- Persistent app data path
+- Persistent IPTVBoss app data
 - Browser noVNC WebUI
 - Full noVNC client URL for copy/paste support
 - Optional native VNC port
@@ -50,7 +68,7 @@ It configures the important Unraid pieces:
 - Cron schedule for automated no-GUI runs
 - VNC resolution, color depth, and password variables
 
-The main improvement in this template is the WebUI URL.
+The main Unraid-specific improvement is the WebUI URL.
 
 Instead of opening the lite noVNC client:
 
@@ -78,7 +96,7 @@ Search for:
 IPTVBoss
 ```
 
-If installing manually from the template repo, the XML template is here:
+If installing manually from this template repo, the XML template is here:
 
 ```text
 templates/iptvboss.xml
@@ -113,12 +131,6 @@ In the XML template, the same line must use escaped ampersands:
 Recommended host path:
 
 ```text
-/mnt/user/appdata/iptvboss
-```
-
-Cache-preferred example:
-
-```text
 /mnt/cache/appdata/iptvboss
 ```
 
@@ -127,6 +139,8 @@ Container path:
 ```text
 /headless/IPTVBoss
 ```
+
+The old `/headless/.config` workaround is no longer needed because upstream PR [`#219`](https://github.com/groenator/iptvboss-docker/pull/219) added the Mozilla Firefox default-browser fix to the image.
 
 ---
 
@@ -183,6 +197,16 @@ http://YOUR-UNRAID-IP:8001
 ```
 
 or whatever host port you mapped to container port `8001`.
+
+---
+
+## Paths
+
+| Container Path | Recommended Host Path | Purpose |
+|---|---|---|
+| `/headless/IPTVBoss` | `/mnt/cache/appdata/iptvboss` | Persistent IPTVBoss app data |
+
+Do not add a separate `/headless/.config` mapping for normal installs. That workaround was only needed before the upstream Firefox default-browser fix.
 
 ---
 
@@ -262,6 +286,41 @@ The `/vnc.html` page is the full noVNC client.
 7. Press `Ctrl + V`.
 
 This avoids needing a separate desktop VNC app for setup.
+
+---
+
+## Dropbox authorization
+
+The upstream IPTVBoss Docker image now sets Mozilla Firefox as the default XFCE/XDG browser when no user preference exists.
+
+If Dropbox authorization does not open, verify the browser setting inside the IPTVBoss desktop:
+
+```text
+Applications > Settings > Default Applications > Internet > Web Browser
+```
+
+It should be:
+
+```text
+Mozilla Firefox
+```
+
+You can also verify from Unraid Terminal:
+
+```bash
+docker exec -it IPTVBoss bash -lc '
+cat /headless/.config/xfce4/helpers.rc 2>/dev/null || true
+cat /headless/.config/mimeapps.list 2>/dev/null || true
+'
+```
+
+Expected values include:
+
+```text
+WebBrowser=firefox
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
+```
 
 ---
 
@@ -347,12 +406,6 @@ PGID=100
 ```
 
 Recommended host path:
-
-```text
-/mnt/user/appdata/iptvboss
-```
-
-or:
 
 ```text
 /mnt/cache/appdata/iptvboss
@@ -445,22 +498,6 @@ http://YOUR-UNRAID-IP:6901/vnc.html?autoconnect=true&password=iptvboss&resize=sc
 
 ## Troubleshooting
 
-### Desktop background changed after adding Desktop Config
-
-If the desktop background changes color after adding the persistent `/headless/.config` path, that is expected. The container is creating a fresh XFCE desktop profile in the new persistent config folder.
-
-This is cosmetic and does not mean IPTVBoss is broken.
-
-You can change the background from inside the desktop:
-
-```text
-Applications → Settings → Desktop
-```
-
-Because `/headless/.config` is persistent, the background choice should survive restarts.
-
-
-
 ### Copy/paste does not work in the browser
 
 Make sure you are using:
@@ -493,25 +530,28 @@ iptvboss
 
 If you changed `VNC_PW`, update the WebUI URL or enter the password manually.
 
-### Notification area lost selection warning
+### Dropbox authorization still fails
 
-After adding the persistent desktop config path, XFCE may show this warning on first launch:
+Verify that the upstream image has been updated and that Firefox is set as the default browser:
 
-```text
-The notification area lost selection
+```bash
+docker pull ghcr.io/groenator/iptvboss-docker:latest
+
+docker exec -it IPTVBoss bash -lc '
+cat /headless/.config/xfce4/helpers.rc 2>/dev/null || true
+cat /headless/.config/mimeapps.list 2>/dev/null || true
+'
 ```
 
-This is a cosmetic XFCE desktop warning and does not affect IPTVBoss, noVNC, copy/paste, cron, or XC Server.
-
-It can appear because the persistent `/headless/.config` folder starts empty and XFCE creates a new desktop profile.
-
-You can safely close the message.
-
-The persistent desktop config path is still recommended because it preserves the default browser setting needed for Dropbox authorization:
+Expected values:
 
 ```text
-Applications → Settings → Default Applications → Web Browser → Mozilla
+WebBrowser=firefox
+x-scheme-handler/http=firefox.desktop
+x-scheme-handler/https=firefox.desktop
 ```
+
+If those values are missing, recreate the container after pulling the latest image.
 
 ### IPTVBoss does not start
 
