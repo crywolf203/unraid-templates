@@ -9,7 +9,7 @@
   <Privileged>false</Privileged>
   <Support>https://github.com/crywolf203/unraid-templates/issues</Support>
   <Project>https://github.com/groenator/iptvboss-docker</Project>
-  <Overview>IPTVBoss is an IPTV playlist and EPG management application. This Unraid template uses the upstream groenator IPTVBoss Docker image and opens the full noVNC browser client so copy and paste work from the browser window. The browser WebUI uses port 6901. XC Server uses port 8001. Native VNC on port 5901 is included as an optional fallback. For Dropbox authorization, set the desktop default browser to Mozilla inside IPTVBoss using Applications &gt; Settings &gt; Default Applications. The template includes a persistent Desktop Config path so this setting can survive container updates/recreates.</Overview>
+  <Overview>IPTVBoss is an IPTV playlist and EPG management application. This Unraid template uses the upstream groenator IPTVBoss Docker image and opens the full noVNC browser client so copy and paste work from the browser window. The browser WebUI uses port 6901. XC Server uses port 8001. Native VNC on port 5901 is included as an optional fallback. The upstream image now sets Mozilla Firefox as the default browser for authorization links when no user preference exists.</Overview>
   <Category>MediaApp:Video</Category>
   <WebUI>http://[IP]:[PORT:6901]/vnc.html?autoconnect=true&amp;password=iptvboss&amp;resize=scale</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/templates/iptvboss.xml</TemplateURL>
