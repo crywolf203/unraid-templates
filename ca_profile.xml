@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <CommunityApplications>
   <Profile>
-    Unraid Community Applications templates maintained by crywolf203. This repository provides an Unraid template for LRCGET, an unofficial browser-based container for mass-downloading synced LRC lyrics for offline music libraries.
+    Unraid Community Applications templates maintained by crywolf203. This repository provides Unraid-friendly templates and documentation for apps I personally use on my Unraid server, including LRCGET and IPTVBoss. These templates are community-maintained wrappers around upstream applications or Docker images, with clear paths, ports, WebUI settings, and Unraid-specific setup notes.
   </Profile>
   <Icon>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/unraid-templates-icon.png</Icon>
   <WebPage>https://github.com/crywolf203/unraid-templates</WebPage>
