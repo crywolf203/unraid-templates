@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>AMA-Unraid</Name>
+  <Repository>ghcr.io/crywolf203/ama-unraid:latest</Repository>
+  <Registry>https://github.com/crywolf203/ama-unraid/pkgs/container/ama-unraid</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/crywolf203/unraid-templates/issues</Support>
+  <Project>https://github.com/crywolf203/ama-unraid</Project>
+  <Overview>AMA-Unraid is a community-maintained Unraid-focused fork of the archived RandomNinjaAtk/docker-ama project. AMA automates music archiving for use with applications such as Plex, Jellyfin, Emby, Kodi, and Lidarr. This template points to ghcr.io/crywolf203/ama-unraid:latest and exposes the key AMA settings as Unraid template fields. Use only with content and accounts you are authorized to access.</Overview>
+  <Category>MediaApp:Music</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/templates/ama-unraid.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/crywolf203/unraid-templates/main/ama-unraid-icon.png</Icon>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled/>
+  <DonateText>Support crywolf203</DonateText>
+  <DonateLink>https://buymeacoffee.com/crywolf203</DonateLink>
+  <Requires/>
+  <Config Name="Config" Target="/config" Default="/mnt/cache/appdata/ama-unraid" Mode="rw" Description="Persistent AMA configuration, scripts, logs, cache, lists, and deemix data." Type="Path" Display="always" Required="true" Mask="false">/mnt/cache/appdata/ama-unraid</Config>
+  <Config Name="Downloads / Music Library" Target="/downloads-ama" Default="/mnt/user/media/music" Mode="rw" Description="AMA download/output library path. If using Plex notification, this path should match the path your Plex Music library uses inside Plex." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/media/music</Config>
+  <Config Name="PUID" Target="PUID" Default="99" Mode="" Description="User ID for file ownership. 99 is the default Unraid nobody user." Type="Variable" Display="advanced" Required="true" Mask="false">99</Config>
+  <Config Name="PGID" Target="PGID" Default="100" Mode="" Description="Group ID for file ownership. 100 is the default Unraid users group." Type="Variable" Display="advanced" Required="true" Mask="false">100</Config>
+  <Config Name="Autostart" Target="AUTOSTART" Default="false" Mode="" Description="true = run AMA automatically on container startup. false = manual runs only. Recommended to keep false until your configuration is tested." Type="Variable" Display="always" Required="true" Mask="false">false</Config>
+  <Config Name="Script Interval" Target="SCRIPTINTERVAL" Default="7d" Mode="" Description="Amount of time between script runs when AUTOSTART=true. Examples: 15m, 1h, 1d." Type="Variable" Display="always" Required="false" Mask="false">7d</Config>
+  <Config Name="Mode" Target="MODE" Default="artist" Mode="" Description="Download mode. Common values are artist or discography." Type="Variable" Display="always" Required="true" Mask="false">artist</Config>
+  <Config Name="ARL Token" Target="ARL_TOKEN" Default="" Mode="" Description="Required account token used by the download client. Keep this private. Use only with accounts/content you are authorized to access." Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="Related Artist" Target="RELATED_ARTIST" Default="false" Mode="" Description="Enable related artist discovery from your artist list. Leave false for a safer first setup." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Related Artist Related" Target="RELATED_ARTIST_RELATED" Default="false" Mode="" Description="Enable recursive related artist discovery. Warning: this can greatly expand processing." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Related Count" Target="RELATED_COUNT" Default="0" Mode="" Description="Maximum related artists to import per artist." Type="Variable" Display="advanced" Required="false" Mask="false">0</Config>
+  <Config Name="Fan Count" Target="FAN_COUNT" Default="10" Mode="" Description="Minimum fan count required for related artist processing." Type="Variable" Display="advanced" Required="false" Mask="false">10</Config>
+  <Config Name="Concurrent Downloads" Target="CONCURRENT_DOWNLOADS" Default="2" Mode="" Description="Download concurrency. Keep this low until tested." Type="Variable" Display="always" Required="false" Mask="false">2</Config>
+  <Config Name="Embedded Cover Quality" Target="EMBEDDED_COVER_QUALITY" Default="100" Mode="" Description="Embedded cover image quality percentage. 100 = no compression." Type="Variable" Display="advanced" Required="false" Mask="false">100</Config>
+  <Config Name="Format" Target="FORMAT" Default="FLAC" Mode="" Description="Target audio format. Common values: FLAC, ALAC, AAC, MP3, OPUS." Type="Variable" Display="always" Required="false" Mask="false">FLAC</Config>
+  <Config Name="Bitrate" Target="BITRATE" Default="320" Mode="" Description="Target bitrate for lossy conversion when applicable." Type="Variable" Display="advanced" Required="false" Mask="false">320</Config>
+  <Config Name="Force Convert" Target="FORCECONVERT" Default="true" Mode="" Description="Force conversion to requested format when supported. Leave false for safer behavior." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Post Process Threads" Target="POSTPROCESSTHREADS" Default="8" Mode="" Description="Number of threads used for format conversion and ReplayGain tagging." Type="Variable" Display="advanced" Required="false" Mask="false">8</Config>
+  <Config Name="Album Type Filter" Target="ALBUM_TYPE_FILTER" Default="COMPILE" Mode="" Description="Album types to skip/filter. Example: COMPILE, SINGLE, ALBUM, EP." Type="Variable" Display="advanced" Required="false" Mask="false">COMPILE</Config>
+  <Config Name="Require Quality" Target="REQUIRE_QUALITY" Default="false" Mode="" Description="Require downloaded files to match the target file extension/quality." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="ReplayGain" Target="REPLAYGAIN" Default="true" Mode="" Description="Enable ReplayGain scanning/tagging." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Ignore Artist Without Image" Target="IGNORE_ARTIST_WITHOUT_IMAGE" Default="true" Mode="" Description="Skip artists with default/non-unique images." Type="Variable" Display="advanced" Required="false" Mask="false">true</Config>
+  <Config Name="Complete My Artists" Target="COMPLETE_MY_ARTISTS" Default="false" Mode="" Description="Add artist IDs found in the library that are not already in your list. Leave false unless you understand the workflow." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="File Permissions" Target="FILE_PERMISSIONS" Default="777" Mode="" Description="File permissions applied to processed files." Type="Variable" Display="advanced" Required="false" Mask="false">777</Config>
+  <Config Name="Folder Permissions" Target="FOLDER_PERMISSIONS" Default="777" Mode="" Description="Folder permissions applied to processed folders." Type="Variable" Display="advanced" Required="false" Mask="false">777</Config>
+  <Config Name="Lidarr List Import" Target="LIDARR_LIST_IMPORT" Default="false" Mode="" Description="true = import artist list from Lidarr." Type="Variable" Display="always" Required="false" Mask="false">false</Config>
+  <Config Name="Lidarr URL" Target="LIDARR_URL" Default="" Mode="" Description="Lidarr URL. Only used when LIDARR_LIST_IMPORT=true. Example: http://10.13.1.138:8686" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Lidarr API Key" Target="LIDARR_API_KEY" Default="" Mode="" Description="Lidarr API key. Only used when LIDARR_LIST_IMPORT=true." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Notify Plex" Target="NOTIFYPLEX" Default="false" Mode="" Description="true = notify Plex after changes. Plex must have a library using the same media path." Type="Variable" Display="always" Required="false" Mask="false">false</Config>
+  <Config Name="Plex Library Name" Target="PLEXLIBRARYNAME" Default="Music" Mode="" Description="Exact Plex music library name. Only used when NOTIFYPLEX=true." Type="Variable" Display="advanced" Required="false" Mask="false">Music</Config>
+  <Config Name="Plex URL" Target="PLEXURL" Default="http://10.13.1.138:32400" Mode="" Description="Plex server URL. Only used when NOTIFYPLEX=true." Type="Variable" Display="advanced" Required="false" Mask="false">http://10.13.1.138:32400</Config>
+  <Config Name="Plex Token" Target="PLEXTOKEN" Default="" Mode="" Description="Plex token. Only used when NOTIFYPLEX=true." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+</Container>
