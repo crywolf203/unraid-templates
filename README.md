@@ -1,4 +1,3 @@
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/crywolf203/unraid-templates/main/unraid-templates-icon.png" alt="Unraid Templates by crywolf203" width="180">
 </p>
@@ -55,6 +54,7 @@ Whenever possible, each template links back to the original upstream project.
 |---|---|---|---|---|
 | LRCGET | Browser-accessible Unraid wrapper for LRCGET, a tool for downloading synced `.lrc` lyrics for offline music libraries. Includes WebUI audio support with `WEB_AUDIO=1`. | [`templates/lrcget.xml`](templates/lrcget.xml) | See the container README | [`tranxuanthang/lrcget`](https://github.com/tranxuanthang/lrcget) / [`crywolf203/lrcget-unraid`](https://github.com/crywolf203/lrcget-unraid) |
 | IPTVBoss | Unraid template for the upstream IPTVBoss Docker image. Uses the full noVNC browser client so copy/paste works directly from the browser WebUI. Includes optional XC Server and cron support. | [`templates/iptvboss.xml`](templates/iptvboss.xml) | [`docs/iptvboss.md`](docs/iptvboss.md) | [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker) |
+| PyLrcGet | Browser-accessible Unraid wrapper for PyLrcGet, a desktop lyrics manager and player. Runs inside LinuxServer Webtop with HTTPS browser access and includes Firefox, Chrome, ffmpeg, mediainfo, and kid3-cli. | [`templates/pylrcget.xml`](templates/pylrcget.xml) | [`docs/pylrcget.md`](docs/pylrcget.md) | [`saitatter/pylrcget`](https://github.com/saitatter/pylrcget) / [`crywolf203/pylrcget-unraid`](https://github.com/crywolf203/pylrcget-unraid) |
 
 More templates may be added over time as I build wrappers for apps I actually use.
 
@@ -71,10 +71,12 @@ unraid-templates/
 ├── lrcget-icon.png
 ├── iptvboss-icon.png
 ├── docs/
-│   └── iptvboss.md
+│   ├── iptvboss.md
+│   └── pylrcget.md
 └── templates/
     ├── lrcget.xml
-    └── iptvboss.xml
+    ├── iptvboss.xml
+    └── pylrcget.xml
 ```
 
 ### `ca_profile.xml`
@@ -90,6 +92,7 @@ Examples:
 ```text
 templates/lrcget.xml
 templates/iptvboss.xml
+templates/pylrcget.xml
 ```
 
 Future templates will follow the same pattern:
@@ -103,15 +106,16 @@ templates/another-app.xml
 
 The `docs/` folder contains app-specific Unraid setup notes when the XML template needs more explanation.
 
-Current guide:
+Current guides:
 
 ```text
 docs/iptvboss.md
+docs/pylrcget.md
 ```
 
 ### Icons
 
-App and repository icons are stored in the root of the repository.
+App and repository icons are stored in the root of the repository, or referenced from the related container repository when appropriate.
 
 Examples:
 
@@ -119,6 +123,12 @@ Examples:
 unraid-templates-icon.png
 lrcget-icon.png
 iptvboss-icon.png
+```
+
+PyLrcGet currently uses the icon from its container repo:
+
+```text
+https://raw.githubusercontent.com/crywolf203/pylrcget-unraid/main/icon.png
 ```
 
 Each template points to its own icon using a raw GitHub URL.
@@ -218,6 +228,7 @@ Examples:
 
 - LRCGET uses `WEB_AUDIO=1` so browser audio works through the WebUI.
 - IPTVBoss uses `/vnc.html` instead of the lite noVNC URL so browser copy/paste works correctly.
+- PyLrcGet uses LinuxServer Webtop HTTPS access on container port `3001`.
 
 ---
 
@@ -238,6 +249,40 @@ https://github.com/crywolf203/lrcget-unraid
 ```
 
 The Unraid template in this repo points to that image.
+
+### PyLrcGet
+
+PyLrcGet is provided through a separate Unraid-friendly Docker wrapper image:
+
+```text
+crywolf203/pylrcget-unraid:latest
+```
+
+That image is built and published from:
+
+```text
+https://github.com/crywolf203/pylrcget-unraid
+```
+
+The Unraid template in this repo points to that image and uses LinuxServer Webtop HTTPS access on container port `3001`.
+
+Important WebUI note:
+
+```text
+https://[IP]:[PORT:3001]/
+```
+
+Inside PyLrcGet, your music folder should be selected as:
+
+```text
+/music
+```
+
+Detailed guide:
+
+```text
+docs/pylrcget.md
+```
 
 ### IPTVBoss
 
@@ -297,6 +342,26 @@ Container-specific LRCGET for Unraid issues:
 https://github.com/crywolf203/lrcget-unraid/issues
 ```
 
+### PyLrcGet links
+
+Application-level PyLrcGet issues:
+
+```text
+https://github.com/saitatter/pylrcget
+```
+
+Container-specific PyLrcGet for Unraid issues:
+
+```text
+https://github.com/crywolf203/pylrcget-unraid/issues
+```
+
+Unraid template issues:
+
+```text
+https://github.com/crywolf203/unraid-templates/issues
+```
+
 ### IPTVBoss links
 
 Upstream IPTVBoss Docker image:
@@ -351,10 +416,12 @@ unraid-templates/
 ├── another-app-icon.png
 ├── docs/
 │   ├── iptvboss.md
+│   ├── pylrcget.md
 │   └── another-app.md
 └── templates/
     ├── lrcget.xml
     ├── iptvboss.xml
+    ├── pylrcget.xml
     └── another-app.xml
 ```
 
