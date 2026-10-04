@@ -61,6 +61,8 @@ The [Compose setup and verification guide](https://github.com/crywolf203/imessag
 
 This repository already has an MIT license and `ca_profile.xml`. The template includes the public image, icon, canonical update URL, support/project links and setup requirements. For an initial repository submission or a rescan, use [Community Apps submission](https://ca.unraid.net/submit/new): sign in with Unraid, enter `https://github.com/crywolf203/unraid-templates`, validate and scan, and review any warnings before submitting. If this repository is already registered, use its existing submission rather than creating a duplicate.
 
+The repository already supplies the live [LRCGET listing](https://ca.unraid.net/apps/lrcget-0znc5np1v649pd). Adding this template to the registered repository is the normal path; check the existing repository's status or request a rescan if iMessage Archive does not appear. The [template validation workflow](https://github.com/crywolf203/unraid-templates/actions/workflows/validate-imessage.yml) checks its storage, port, security fields and defaults against the app's Compose files.
+
 Publication and review are controlled by Community Applications. The presence of this XML in GitHub is not a claim that an Apps listing is live. Follow the [current Unraid submission guide](https://ca.unraid.net/submit/help).
 
 ## Support

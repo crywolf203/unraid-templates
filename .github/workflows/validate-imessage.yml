@@ -1,0 +1,36 @@
+name: Validate iMessage Archive template
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - templates/imessage-archive.xml
+      - ca_profile.xml
+      - .github/workflows/validate-imessage.yml
+  pull_request:
+    paths:
+      - templates/imessage-archive.xml
+      - ca_profile.xml
+      - .github/workflows/validate-imessage.yml
+
+permissions:
+  contents: read
+
+jobs:
+  template:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: templates-repo
+      - uses: actions/checkout@v4
+        with:
+          repository: crywolf203/imessage-archive
+          path: app-repo
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Validate the canonical XML against production Compose
+        run: python app-repo/tests/deployment.py templates-repo/templates/imessage-archive.xml
