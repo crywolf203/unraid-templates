@@ -60,7 +60,7 @@ These templates are intended to make installation easier for other Unraid users 
 
 | App | Description | Template | Guide / Project | Upstream Project / Image |
 |---|---|---|---|---|
-| AMA-Unraid | Unraid-focused Automated Music Archiver fork with Deemix Direct, synced lyrics fallback, ReplayGain, Plex/Roon metadata cleanup, high-quality album art, and optional Lidarr/Plex integration. | [`templates/ama-unraid.xml`](templates/ama-unraid.xml) | [`crywolf203/ama-unraid`](https://github.com/crywolf203/ama-unraid) | [`ghcr.io/crywolf203/ama-unraid:latest`](https://github.com/crywolf203/ama-unraid/pkgs/container/ama-unraid) |
+| AMA-Unraid | Unraid-focused Automated Music Archiver fork with embedded Bambanah Deemix Direct, synced lyrics fallback, ReplayGain, Plex/Roon metadata cleanup, high-quality album art, optional MusicBrainz enrichment, and optional Lidarr/Plex integration. | [`templates/ama-unraid.xml`](templates/ama-unraid.xml) | [`crywolf203/ama-unraid`](https://github.com/crywolf203/ama-unraid) | [`ghcr.io/crywolf203/ama-unraid:latest`](https://github.com/crywolf203/ama-unraid/pkgs/container/ama-unraid) |
 | LRCGET | Browser-accessible Unraid wrapper for LRCGET, a tool for downloading synced `.lrc` lyrics for offline music libraries. Includes WebUI audio support with `WEB_AUDIO=1`. | [`templates/lrcget.xml`](templates/lrcget.xml) | See the container README | [`tranxuanthang/lrcget`](https://github.com/tranxuanthang/lrcget) / [`crywolf203/lrcget-unraid`](https://github.com/crywolf203/lrcget-unraid) |
 | IPTVBoss | Unraid template for the upstream IPTVBoss Docker image. Uses the full noVNC browser client so copy/paste works directly from the browser WebUI. Includes optional XC Server and cron support. | [`templates/iptvboss.xml`](templates/iptvboss.xml) | [`docs/iptvboss.md`](docs/iptvboss.md) | [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker) |
 | PyLrcGet | Browser-accessible Unraid wrapper for PyLrcGet, a desktop lyrics manager and player. Runs inside LinuxServer Webtop with HTTPS browser access and includes Firefox, Chrome, ffmpeg, mediainfo, and kid3-cli. | [`templates/pylrcget.xml`](templates/pylrcget.xml) | [`docs/pylrcget.md`](docs/pylrcget.md) | [`saitatter/pylrcget`](https://github.com/saitatter/pylrcget) / [`crywolf203/pylrcget-unraid`](https://github.com/crywolf203/pylrcget-unraid) |
@@ -266,7 +266,7 @@ If a template needs special variables, extra parameters, capabilities, rendering
 
 Examples:
 
-- AMA-Unraid documents Deemix Direct, `MODE=artist` vs `MODE=discography`, conversion settings, and legacy Deemix API options.
+- AMA-Unraid documents Bambanah Deemix Direct, `MODE=artist` vs `MODE=discography`, optional MusicBrainz enrichment, album discovery limits, conversion settings, and legacy Deemix API options.
 - LRCGET uses `WEB_AUDIO=1` so browser audio works through the WebUI.
 - IPTVBoss uses `/vnc.html` instead of the lite noVNC URL so browser copy/paste works correctly.
 - PyLrcGet uses LinuxServer Webtop HTTPS access on container port `3001`.
@@ -315,6 +315,7 @@ Recommended setup:
 ```text
 DOWNLOAD_CLIENT=deemix_direct
 MODE=artist
+MUSICBRAINZ_ENABLED=false
 FORMAT=FLAC
 DEEMIX_FALLBACK_BITRATE=true
 FORCECONVERT=false
@@ -326,7 +327,7 @@ Important paths:
 
 | Container Path | Purpose |
 |---|---|
-| `/config` | AMA-Unraid appdata, scripts, logs, cache, artist lists, and runtime Deemix Direct config |
+| `/config` | AMA-Unraid appdata, scripts, logs, cache, artist lists, and persistent Bambanah Deemix runtime config |
 | `/downloads-ama` | Final processed music library and AMA-managed `/downloads-ama/temp` working folder |
 | `/deemix-config` | Optional Deemix `login.json` folder, only needed when not using `ARL_TOKEN` |
 | `/deemix-downloads` | Legacy Deemix API-only downloads folder |
@@ -345,7 +346,15 @@ MODE=discography
 
 Downloads albums listed under the selected artist plus albums where that artist appears as a contributor or featured artist.
 
-Direct mode does not require a separate Deemix API/WebUI container. Legacy API settings remain available for users who intentionally keep that older workflow.
+Bambanah Deemix Direct does not require a separate Deemix API/WebUI container. MusicBrainz enrichment is optional and disabled by default with `MUSICBRAINZ_ENABLED=false`; the legacy `/config/run_alternate` marker remains supported. Legacy API settings remain available for users who intentionally keep that older workflow.
+
+Optional album discovery limit:
+
+```text
+MAX_ALBUMS_PER_ARTIST=
+```
+
+Leave this blank or set it to `0` for unlimited discovery. AMA 2.6.0 treats the legacy value `25` as unset/unlimited; use another positive integer when you want a real per-artist limit.
 
 The AMA-Unraid template keeps the following update metadata:
 
