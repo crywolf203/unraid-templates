@@ -64,8 +64,11 @@ These templates are intended to make installation easier for other Unraid users 
 | LRCGET | Browser-accessible Unraid wrapper for LRCGET, a tool for downloading synced `.lrc` lyrics for offline music libraries. Includes WebUI audio support with `WEB_AUDIO=1`. | [`templates/lrcget.xml`](templates/lrcget.xml) | See the container README | [`tranxuanthang/lrcget`](https://github.com/tranxuanthang/lrcget) / [`crywolf203/lrcget-unraid`](https://github.com/crywolf203/lrcget-unraid) |
 | IPTVBoss | Unraid template for the upstream IPTVBoss Docker image. Uses the full noVNC browser client so copy/paste works directly from the browser WebUI. Includes optional XC Server and cron support. | [`templates/iptvboss.xml`](templates/iptvboss.xml) | [`docs/iptvboss.md`](docs/iptvboss.md) | [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker) |
 | PyLrcGet | Browser-accessible Unraid wrapper for PyLrcGet, a desktop lyrics manager and player. Runs inside LinuxServer Webtop with HTTPS browser access and includes Firefox, Chrome, ffmpeg, mediainfo, and kid3-cli. | [`templates/pylrcget.xml`](templates/pylrcget.xml) | [`docs/pylrcget.md`](docs/pylrcget.md) | [`saitatter/pylrcget`](https://github.com/saitatter/pylrcget) / [`crywolf203/pylrcget-unraid`](https://github.com/crywolf203/pylrcget-unraid) |
+| iMessage Archive | Local iPhone backups, indexed message search, bounded conversation browsing and resumable PDF/HTML/text/CSV/ZIP exports. Requires a trusted unlocked iPhone and Linux amd64. | [`templates/imessage-archive.xml`](templates/imessage-archive.xml) | [`docs/imessage-archive.md`](docs/imessage-archive.md) | [`crywolf203/imessage-archive`](https://github.com/crywolf203/imessage-archive) / [`imessage-exporter`](https://github.com/ReagentX/imessage-exporter) |
 
 More templates may be added over time as I build wrappers for apps I actually use.
+
+The iMessage Archive guide includes a private-template install option and a verified Docker Compose workflow. A template being present here does not mean its Community Applications listing is already live.
 
 ---
 
