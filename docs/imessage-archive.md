@@ -57,6 +57,10 @@ The browser loads bounded conversation parts, not an entire giant HTML thread. P
 
 The [Compose setup and verification guide](https://github.com/crywolf203/imessage-archive/blob/main/docs/compose.md) shows exact installation commands. The [Verify published image workflow](https://github.com/crywolf203/imessage-archive/actions/workflows/verify-image.yml) starts that Compose file, checks healthy startup, search, real PDF/media conversions, CSV/ZIP and browser navigation, and uploads timing results and synthetic-data screenshots. The test uses disposable storage; it is not proof of physical pairing or an actual iPhone backup on every iOS release.
 
+The [October 4, 2026 Compose verification](https://github.com/crywolf203/imessage-archive/actions/runs/37193181697) passed. This is its real app screenshot, using generated test messages only:
+
+![iMessage Archive running through Compose with synthetic data](https://raw.githubusercontent.com/crywolf203/imessage-archive/main/docs/screenshots/desktop-dark.png)
+
 ## Community Applications publication
 
 This repository already has an MIT license and `ca_profile.xml`. The template includes the public image, icon, canonical update URL, support/project links and setup requirements. For an initial repository submission or a rescan, use [Community Apps submission](https://ca.unraid.net/submit/new): sign in with Unraid, enter `https://github.com/crywolf203/unraid-templates`, validate and scan, and review any warnings before submitting. If this repository is already registered, use its existing submission rather than creating a duplicate.
