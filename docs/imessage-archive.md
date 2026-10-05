@@ -17,6 +17,14 @@ Refresh Apps and select the private template. Do not install a second instance i
 
 Set a unique administrator password and session secret in the template before applying. Generate the secret in the Unraid terminal with `openssl rand -hex 32`. Web UI port 8087 maps to container port 8080. Open the Web UI and sign in with the configured administrator account.
 
+## Every variable explained
+
+The [complete README configuration reference](https://github.com/crywolf203/imessage-archive#configuration-reference) lists every variable with its default, purpose, allowed values, and instructions for Unraid/Compose. It also explains first-time setup, exports/PDFs, saved Automation settings, retention cleanup, and common errors. Most users only need a username, administrator password, session secret, and suitable storage paths; leave the advanced performance defaults unchanged until a manual backup/export works.
+
+`FLASK_SECRET_KEY` is a private key that signs browser login sessions. It is **not** your login password or iPhone backup encryption password. Generate it once, paste the full 64-character output into **Session secret**, and keep the same value when upgrading. You do not need to memorize it or enter it on the login page. The app can create a temporary key if empty, but that changes at restart and signs users out; the template intentionally requires a stable value. Changing it does not erase backups or messages. See [the three separate secrets](https://github.com/crywolf203/imessage-archive#passwords-and-the-session-secret).
+
+Use `COOKIE_SECURE=0` for the default HTTP LAN URL. `1` requires HTTPS and does not itself enable TLS. Keep the viewer password blank unless another person needs access to existing private exports. For scheduling/webhook/retention changes after initial setup, use the web app's **Automation and support** section: saved UI settings override the matching container defaults.
+
 ## Storage
 
 | Container path | Default Unraid host path | Contents |
@@ -63,9 +71,9 @@ The [October 4, 2026 Compose verification](https://github.com/crywolf203/imessag
 
 ## Community Applications publication
 
-This repository already has an MIT license and `ca_profile.xml`. The template includes the public image, icon, canonical update URL, support/project links and setup requirements. For an initial repository submission or a rescan, use [Community Apps submission](https://ca.unraid.net/submit/new): sign in with Unraid, enter `https://github.com/crywolf203/unraid-templates`, validate and scan, and review any warnings before submitting. If this repository is already registered, use its existing submission rather than creating a duplicate.
+This repository already has an MIT license and `ca_profile.xml`. The template includes the public image, icon, canonical update URL, support/project links and setup requirements. The [Community Apps submission](https://ca.unraid.net/submit/new) flow validates/scans a new repository, but can stop an already enabled repository with an explicit "does not need to be submitted" notice. This repository is already enabled; do not submit a duplicate repository just to force a new app into the catalog.
 
-The repository already supplies the live [LRCGET listing](https://ca.unraid.net/apps/lrcget-0znc5np1v649pd). Adding this template to the registered repository is the normal path; check the existing repository's status or request a rescan if iMessage Archive does not appear. The [template validation workflow](https://github.com/crywolf203/unraid-templates/actions/workflows/validate-imessage.yml) checks its storage, port, security fields and defaults against the app's Compose files.
+The repository already supplies the live [LRCGET listing](https://ca.unraid.net/apps/lrcget-0znc5np1v649pd). Adding this template to the registered repository is the normal path. Check the [existing repository's status](https://ca.unraid.net/submissions/repository?url=https://github.com/crywolf203/unraid-templates) and use [CA submission support](https://product.unraid.net/b/community-apps-submission-support) if new templates remain unimported; a manual rescan control or an exact indexing ETA is not guaranteed. The [template validation workflow](https://github.com/crywolf203/unraid-templates/actions/workflows/validate-imessage.yml) checks its storage, port, security fields and defaults against the app's Compose files.
 
 Publication and review are controlled by Community Applications. The presence of this XML in GitHub is not a claim that an Apps listing is live. Follow the [current Unraid submission guide](https://ca.unraid.net/submit/help).
 
