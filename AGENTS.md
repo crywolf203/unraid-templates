@@ -10,3 +10,10 @@ When adding or changing user-facing AMA configuration fields, update the AMA tem
 - Validate XML and ensure there are no duplicate configuration targets.
 - Describe template migration for existing installations; an image update alone must not be assumed to add fields to the user's saved template.
 
+## Tandem
+
+`templates/tandem.xml` is the Community Applications copy of `unraid-template/tandem.xml` in crywolf203/tandem.
+
+- Keep every `Config` the same in both copies (names, targets, defaults, descriptions, display order). Only `Support`, `TemplateURL`, `Icon`, `ReadMe` and `ExtraSearchTerms` differ: here they point at this repository.
+- When Tandem adds a setting, update this copy and `docs/tandem.md` in the same change.
+- Calls and local AI add-ons install with Docker Compose (`setup.sh` in the Tandem repo), not through this template; keep `docs/tandem.md` saying so.
