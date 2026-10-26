@@ -37,6 +37,7 @@
   - [LRCGET](#lrcget)
   - [PyLrcGet](#pylrcget)
   - [IPTVBoss](#iptvboss)
+  - [Tandem](#tandem)
 - [Support](#support)
 - [Donations](#donations)
 - [Adding Future Templates](#adding-future-templates)
@@ -65,6 +66,7 @@ These templates are intended to make installation easier for other Unraid users 
 | IPTVBoss | Unraid template for the upstream IPTVBoss Docker image. Uses the full noVNC browser client so copy/paste works directly from the browser WebUI. Includes optional XC Server and cron support. | [`templates/iptvboss.xml`](templates/iptvboss.xml) | [`docs/iptvboss.md`](docs/iptvboss.md) | [`groenator/iptvboss-docker`](https://github.com/groenator/iptvboss-docker) |
 | PyLrcGet | Browser-accessible Unraid wrapper for PyLrcGet, a desktop lyrics manager and player. Runs inside LinuxServer Webtop with HTTPS browser access and includes Firefox, Chrome, ffmpeg, mediainfo, and kid3-cli. | [`templates/pylrcget.xml`](templates/pylrcget.xml) | [`docs/pylrcget.md`](docs/pylrcget.md) | [`saitatter/pylrcget`](https://github.com/saitatter/pylrcget) / [`crywolf203/pylrcget-unraid`](https://github.com/crywolf203/pylrcget-unraid) |
 | iMessage Archive | Local iPhone backups, indexed message search, bounded conversation browsing and resumable PDF/HTML/text/CSV/ZIP exports. Requires a trusted unlocked iPhone and Linux amd64. | [`templates/imessage-archive.xml`](templates/imessage-archive.xml) | [`docs/imessage-archive.md`](docs/imessage-archive.md) | [`crywolf203/imessage-archive`](https://github.com/crywolf203/imessage-archive) / [`imessage-exporter`](https://github.com/ReagentX/imessage-exporter) |
+| Tandem | Self-hosted co-parenting app: shared parenting-time calendar with swap requests, permanent tamper-evident messages, shared expenses with receipts, school calendars, child health cards and documents, and optional voice calls recorded only when both parents agree. Installs on phones like a native app. | [`templates/tandem.xml`](templates/tandem.xml) | [`docs/tandem.md`](docs/tandem.md) | [`crywolf203/tandem`](https://github.com/crywolf203/tandem) / [`ghcr.io/crywolf203/tandem:latest`](https://github.com/crywolf203/tandem/pkgs/container/tandem) |
 
 More templates may be added over time as I build wrappers for apps I actually use.
 
@@ -157,14 +159,19 @@ unraid-templates/
 ├── ama-unraid-icon.png
 ├── lrcget-icon.png
 ├── iptvboss-icon.png
+├── tandem-icon.png
 ├── docs/
+│   ├── imessage-archive.md
 │   ├── iptvboss.md
-│   └── pylrcget.md
+│   ├── pylrcget.md
+│   └── tandem.md
 └── templates/
     ├── ama-unraid.xml
+    ├── imessage-archive.xml
     ├── lrcget.xml
     ├── iptvboss.xml
-    └── pylrcget.xml
+    ├── pylrcget.xml
+    └── tandem.xml
 ```
 
 ### `ca_profile.xml`
@@ -200,6 +207,7 @@ Current guides:
 ```text
 docs/iptvboss.md
 docs/pylrcget.md
+docs/tandem.md
 ```
 
 ### Icons
@@ -213,6 +221,7 @@ unraid-templates-icon.png
 ama-unraid-icon.png
 lrcget-icon.png
 iptvboss-icon.png
+tandem-icon.png
 ```
 
 Each template points to its icon using a raw GitHub URL.
@@ -441,6 +450,38 @@ Detailed guide:
 docs/iptvboss.md
 ```
 
+### Tandem
+
+Tandem is my own app, published as:
+
+```text
+ghcr.io/crywolf203/tandem:latest
+```
+
+The app repository is:
+
+```text
+https://github.com/crywolf203/tandem
+```
+
+One container with one SQLite database. Everything it stores lives in `/data`:
+
+| Container Path | Purpose |
+|---|---|
+| `/data` | `tandem.db` plus `files/` (documents, card photos, receipts, call recordings). Back this folder up. |
+
+The WebUI is on port `4380`. To install Tandem on phones, put it behind HTTPS with your reverse proxy and set `PUBLIC_URL` and `TRUST_PROXY=true`.
+
+The optional calls (LiveKit) and local AI (Ollama, Whisper) add-ons need several containers, so they install with Docker Compose and the app's `setup.sh` rather than this template. The guide covers both paths.
+
+Detailed guide:
+
+```text
+docs/tandem.md
+```
+
+The template keeps the same settings as the copy in the Tandem repository (`unraid-template/tandem.xml`); this copy's `TemplateURL` and `Support` point here.
+
 ---
 
 ## Support
@@ -504,6 +545,20 @@ Container-specific PyLrcGet for Unraid issues:
 
 ```text
 https://github.com/crywolf203/pylrcget-unraid/issues
+```
+
+### Tandem links
+
+Tandem app issues and feature requests:
+
+```text
+https://github.com/crywolf203/tandem/issues
+```
+
+Unraid template issues:
+
+```text
+https://github.com/crywolf203/unraid-templates/issues
 ```
 
 ### IPTVBoss links
